@@ -1,9 +1,14 @@
-FROM golang:1.12.5
+FROM golang:1.22.4-alpine
 
-WORKDIR /go
+WORKDIR /go/src/github.com/ko44d/sample-docker-compose
 
-ADD . /go/src/github.com/yoshidko/sample-docker-compose
+COPY . .
+
+RUN go mod download
+
+RUN go build -o main ./cmd/sample-docker-compose
 
 EXPOSE 8080
 
-CMD ["go", "run", "/go/src/github.com/yoshidko/sample-docker-compose/cmd/sample-docker-compose/main.go"]
+CMD ["./main"]
+
